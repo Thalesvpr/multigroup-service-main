@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+
+// Mensagem para dados de sucesso 
+message SuccessData {
+  string data = 1; // Personalize com campos relevantes
+}
+
+// Subestrutura para erro de campo
+message Field {
+  string field = 1; // Campo que gerou o erro
+  string message = 2; // Mensagem de erro
+}
+
+// Mensagem para erros em campos específicos
+message FieldError {
+  repeated Field errors = 1; // Lista de erros de campo
+}
+
+// Mensagem para dados de erro 
+message ErrorData {
+
+}
+
+// Mensagem Response para sucesso
+message GoodData {
+  SuccessData data = 2;
+}
+
+// Mensagem BadResponse para erro
+message BadData {
+  oneof problems {
+    string message = 1;
+    FieldError field_error = 2;
+  }
+}
+
+// Alternativa com oneof para múltiplos tipos de dados em uma resposta
+message GenericResultResponse {
+  oneof response_data {
+    SuccessData success_data = 2;
+    ErrorData error_data = 3;
+  }
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package user;
+import "google/protobuf/empty.proto";
+
+// Mensagem de usuário
+message User {
+  string user_id = 1;
+  string email = 2;
+  string password = 3;
+  string first_name = 4;
+  string last_name = 5;
+  string phone_number = 6;
+  string address = 7;
+  string created_at = 8;
+  string updated_at = 9;
+}
+
+
+message UserPayload {
+  string email = 1;
+  string address = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string phone_number = 5;
+}
+
+message UserId {
+  string user_id = 1;
+}
+
+
+message HealthStatus {
+  int32 status = 1;
+}
+
+// Serviço para autenticação
+service UserService {
+  rpc CheckHealth(google.protobuf.Empty) returns (HealthStatus); // Método de verificação de saúde
+}

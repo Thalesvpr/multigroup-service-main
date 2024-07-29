@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package auth_service;
+//protoc --plugin=protoc-gen-ts_proto=".\\node_modules\\.bin\\protoc-gen-ts_proto.cmd" --ts_proto_out=./ ./apps/auth/proto/auth.proto
+import "google/protobuf/empty.proto";
+
+
+// Mensagem para dados de sucesso 
+message SuccessData {
+  string data = 1; // Personalize com campos relevantes
+}
+
+// Subestrutura para erro de campo
+message Field {
+  string field = 1; // Campo que gerou o erro
+  string message = 2; // Mensagem de erro
+}
+
+// Mensagem para erros em campos específicos
+message FieldError {
+  repeated Field errors = 1; // Lista de erros de campo
+}
+
+// Mensagem para dados de erro 
+message ErrorData {
+
+}
+
+// Mensagem Response para sucesso
+message GoodData {
+  SuccessData data = 2;
+}
+
+// Mensagem BadResponse para erro
+message BadData {
+  oneof problems {
+    string message = 1;
+    FieldError field_error = 2;
+  }
+}
+
+// Alternativa com oneof para múltiplos tipos de dados em uma resposta
+message GenericResultResponse {
+  oneof response_data {
+    SuccessData success_data = 2;
+    ErrorData error_data = 3;
+  }
+}
+
+
+// Mensagem para AuthPayload
+message SignInPayload {
+  string email = 1;
+  string password = 2;
+}
+
+// Mensagem para SignUpPayload
+message SignUpPayload {
+  string email = 1;
+  string password = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string phone_number = 5;
+  string address = 6;
+  string form_service = 7;
+}
+
+message AuthData {
+  string accessToken = 1;
+  string refreshToken = 2;
+  int32 expiresIn = 3;
+  string publicId = 4;
+}
+
+
+message HealthStatus {
+  int32 status = 1;
+}
+
+// Resposta usando oneof para tipos múltiplos de resposta
+message AuthResponse {
+  oneof condition {
+    AuthData data = 1;
+    BadData error = 3;
+  }
+}
+
+// Definição do serviço AuthService
+service AuthService {
+  rpc SignIn(SignInPayload) returns (AuthResponse);
+  rpc SignUp(SignUpPayload) returns (AuthResponse);
+  rpc CheckHealth(google.protobuf.Empty) returns (HealthStatus);  // Método de verificação de saúde
+}
+

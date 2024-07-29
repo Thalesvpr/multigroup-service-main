@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/multigroup-service/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/multigroup-service/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/multigroup-service",
+  "projects": {
+    "multigroup-service": {
+      "type": "application",
+      "root": "apps/multigroup-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/multigroup-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/multigroup-service/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.app.json",
+        "assets": [
+          "proto/*.proto"
+
+        ]
+      }
+    },
+    "user": {
+      "type": "application",
+      "root": "apps/user",
+      "entryFile": "main",
+      "sourceRoot": "apps/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user/tsconfig.app.json",
+        "assets": [
+          "proto/*.proto"
+        ]
+      }
+    }
+  }
+}
