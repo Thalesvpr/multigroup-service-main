@@ -9,7 +9,7 @@ import { protobufPackage as AUTH_PROTOBUF_PACKAGE_NAME} from 'proto/generated/pr
 export const grpcClientOptions: GrpcOptions = addReflectionToGrpcConfig({
   transport: Transport.GRPC,
   options: {
-    url: 'localhost:5577',
+    url: `${process.env.PUBLIC_IP}:5577`,
     package: AUTH_PROTOBUF_PACKAGE_NAME,
     protoPath: join(__dirname, '../../../proto/auth.proto'),
   },
@@ -22,7 +22,6 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>(grpcClientOptions);
 
   await app.startAllMicroservices();
-  await app.listen(3000);
 }
 
 bootstrap();
